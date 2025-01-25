@@ -25,9 +25,7 @@ namespace To_do_List_List
                 MessageBox.Show("Please enter a task");
             }
             else
-            {
-                          
-
+            {                          
                     conn.Open();
                     using (SQLiteCommand cmd = new SQLiteCommand(conn))
                     {
@@ -39,7 +37,7 @@ namespace To_do_List_List
                     }
 
                     addList taskManager = new addList(panel2);
-                    await taskManager.Addtask($"{textBox1.Text}", connectionString);
+                    await taskManager.Addtask($"{textBox1.Text}", "Não", connectionString);                    
 
                     conn.Close();
 
