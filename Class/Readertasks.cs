@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using MySql.Data;
 using MySql.Data.MySqlClient;
+using To_do_List_List.GUI;
 
 // adiciona a classe a seguir dentro do namespace padrão da aplicação
 namespace To_do_List_List;
@@ -20,7 +21,7 @@ public class ReaderTasksMethods
         GetData data = new GetData(connectionString);
 
         // Chamo o método GetdataForID, que retorna um dicionário com as tarefas e suas conclusões
-        Dictionary<string,string> tasks = await data.GetdataForID();
+        Dictionary<string,Dictionary<string, string>> tasks = await data.GetdataForID();
 
         // Abro a conexão com o banco de dados
         using (MySqlConnection conn = new MySqlConnection(connectionString))
@@ -34,7 +35,29 @@ public class ReaderTasksMethods
                     // Instancio a classe addList                    
                     addList add = new addList(panelTarefas);
 
-                    await add.Addtask(task.Key, task.Value, connectionString);  // Adiciono ao painel                
+                    switch (task.Value.Values.ToString())
+                    {
+                        case "Nulo":
+                            await add.Addtask(task.Key, task.Value.Keys.ToString(), Categoria.Nulo, connectionString);
+                            break;
+                        
+                        case "Relativa":
+                            await add.Addtask(task.Key, task.Value.Keys.ToString(), Categoria.Relativa, connectionString);
+                            break;
+
+                        case "Importante":
+                            await add.Addtask(task.Key, task.Value.Keys.ToString(), Categoria.Importante, connectionString);
+                            break;
+
+                        case "Muito Importante":
+                            await add.Addtask(task.Key, task.Value.Keys.ToString(), Categoria.Muito_importante, connectionString);
+                            break;
+
+                        case "BEI":
+                            await add.Addtask(task.Key, task.Value.Keys.ToString(), Categoria.BEI, connectionString);
+                            break;
+                        
+                    }
             }
         }
     }

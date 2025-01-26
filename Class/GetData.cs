@@ -2,6 +2,7 @@
 using System.Data;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 // adiciona a classe a seguir dentro do namespace padrão da aplicação
 namespace To_do_List_List;
@@ -19,7 +20,7 @@ public class GetData
     }
 
     // Crio o metodo GetdataForID, Para pegar as informações do banco de dados
-    public async Task<Dictionary<string, string>> GetdataForID()
+    public async Task<Dictionary<string, Dictionary<string, string>>> GetdataForID()
     {
         // Crio a conexão com o banco de dados, dentro de um bloco using, Para após o uso, fechar a conexão
         using (MySqlConnection conn = new MySqlConnection(this.connstring))
@@ -37,12 +38,35 @@ public class GetData
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
                     // Crio um dicionario para armazenar as tarefas, e suas respectivas conclusões
-                    Dictionary<string, string> tasks = new Dictionary<string, string>();
+                    Dictionary<string, Dictionary<string, string>> tasks = new Dictionary<string,Dictionary<string, string>>();                    
 
                     // Para cada registro no reader, adiciono a tarefa e sua conclusão ao dicionario
                     foreach (IDataRecord record in reader)
                     {
-                        tasks.Add(record["Nome"].ToString(), record[""].ToString());
+                        switch (record["Categoria"])
+                        {
+                            case "nulo":
+                                tasks.Add(record["Nome"].ToString(), new Dictionary<string, string> { {record["Concluida"].ToString() , "Nulo"} });
+                                break;
+                            
+                            case "Relativa":
+                                tasks.Add(record["Nome"].ToString(), new Dictionary<string, string> { {record["Concluida"].ToString() , "Relativa"} });
+                                break;
+                            
+                            case "Importante":
+                                tasks.Add(record["Nome"].ToString(), new Dictionary<string, string> { {record["Concluida"].ToString() , "Importante"} });
+                                break;
+                            
+                            case "Muito Importante":
+                                tasks.Add(record["Nome"].ToString(), new Dictionary<string, string> { {record["Concluida"].ToString() , "Muito Importante"} });
+                                break;
+                            
+                            case "BEI":
+                                tasks.Add(record["Nome"].ToString(), new Dictionary<string, string> { {record["Concluida"].ToString() , "BEI"} });
+                                break;
+                            
+                            
+                        }
                     }
 
                     return tasks; // retorno o dicionario

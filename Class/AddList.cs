@@ -20,7 +20,7 @@ namespace To_do_List_List
         }
 
         // Crio o metodo Addtask, para adicionar uma tarefa ao painel
-        public async Task Addtask(string task, string Concluida, string connectionString)
+        public async Task Addtask(string task, string Concluida, Categoria categoria ,string connectionString)
         {
             MySqlConnection conn = new MySqlConnection(connectionString); // Crio a conexão com o banco de dados
 

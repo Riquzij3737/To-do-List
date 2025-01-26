@@ -31,7 +31,6 @@
             button1 = new Button();
             panel1 = new Panel();
             panel2 = new Panel();
-            textBox1 = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -40,18 +39,17 @@
             button1.BackColor = SystemColors.ActiveCaption;
             button1.FlatStyle = FlatStyle.Popup;
             button1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(423, 44);
+            button1.Location = new Point(66, 35);
             button1.Name = "button1";
-            button1.Size = new Size(46, 43);
+            button1.Size = new Size(327, 83);
             button1.TabIndex = 1;
-            button1.Text = "+";
+            button1.Text = "Adicionar Tarefa";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
             // panel1
             // 
             panel1.BackColor = Color.Green;
-            panel1.Controls.Add(textBox1);
             panel1.Controls.Add(button1);
             panel1.Location = new Point(0, -2);
             panel1.Name = "panel1";
@@ -68,14 +66,6 @@
             panel2.Size = new Size(327, 391);
             panel2.TabIndex = 3;
             // 
-            // textBox1
-            // 
-            textBox1.Font = new Font("Segoe UI Historic", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(24, 44);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(373, 38);
-            textBox1.TabIndex = 0;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -88,7 +78,6 @@
             Name = "Form1";
             Text = "Your To-Do-List";
             panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -96,6 +85,5 @@
         private Button button1;
         private Panel panel1;
         private Panel panel2;
-        private TextBox textBox1;
     }
 }
