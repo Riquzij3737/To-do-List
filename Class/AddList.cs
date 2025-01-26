@@ -1,17 +1,15 @@
-// IMporto o Mysql e o namespace padrão da aplicação
+// Importo o Mysql e o namespace padrão da aplicação
 using MySql.Data.MySqlClient;
 using To_do_List_List;
 
-// adiciona a classe a seguir dentro do namespace padrão da aplicação
+// Adiciona a classe a seguir dentro do namespace padrão da aplicação
 namespace To_do_List_List
 {
-
-    // Crio a classe para conter o metodo AddList
+    // Crio a classe para conter o método AddList
     public class addList
     {
         // Crio um objeto global para o painel utilizado
         public Panel panelTarefas;
-
 
         // Crio o construtor da classe addList
         public addList(Panel panel)
@@ -19,8 +17,8 @@ namespace To_do_List_List
             panelTarefas = panel; // Atribuo o painel passado ao construtor ao objeto global panelTarefas
         }
 
-        // Crio o metodo Addtask, para adicionar uma tarefa ao painel
-        public async Task Addtask(string task, string Concluida, Categoria categoria ,string connectionString)
+        // Crio o método Addtask, para adicionar uma tarefa ao painel
+        public async Task Addtask(string task, string Concluida, Categoria categoria, string connectionString)
         {
             MySqlConnection conn = new MySqlConnection(connectionString); // Crio a conexão com o banco de dados
 
@@ -29,8 +27,52 @@ namespace To_do_List_List
             {
                 BackColor = Color.LightGoldenrodYellow,
                 BorderStyle = BorderStyle.FixedSingle,
-                Size = new Size(289, 70)
+                Size = new Size(289, 100), // Aumentei o tamanho para garantir espaço para a categoria
             };
+
+            // Criar painel da categoria
+            Panel panelCategoria = new Panel
+            {
+                BorderStyle = BorderStyle.FixedSingle,
+                Size = new Size(264, 27), // Largura ajustada para cobrir a área do painel
+                Location = new Point(0, 0) // Garantir que o painel da categoria fique no topo
+            };
+
+            // Criar label da categoria
+            Label labelCategoria = new Label
+            {
+                AutoSize = true,
+                Font = new Font("Segoe UI", 9F),
+                Location = new Point(5, 5) // Ajuste de localização
+            };
+
+            // Definir cor e texto baseado na categoria
+            switch (categoria)
+            {
+                case Categoria.Nulo:
+                    panelCategoria.BackColor = Color.Blue;
+                    labelCategoria.Text = "Nulo";
+                    break;
+                case Categoria.Relativa:
+                    panelCategoria.BackColor = Color.Green;
+                    labelCategoria.Text = "Relativa";
+                    break;
+                case Categoria.Importante:
+                    panelCategoria.BackColor = Color.Yellow;
+                    labelCategoria.Text = "Importante";
+                    break;
+                case Categoria.Muito_importante:
+                    panelCategoria.BackColor = Color.Orange;
+                    labelCategoria.Text = "Muito Importante";
+                    break;
+                case Categoria.BEI:
+                    panelCategoria.BackColor = Color.Red;
+                    labelCategoria.Text = "BEI";
+                    break;
+            }
+
+            // Adicionar o label ao painel da categoria
+            panelCategoria.Controls.Add(labelCategoria);
 
             // Criar o CheckBox para a tarefa
             CheckBox newTaskCheckBox = new CheckBox
@@ -38,42 +80,40 @@ namespace To_do_List_List
                 AutoSize = true,
                 Font = new Font("Segoe UI", 11F),
                 Text = task,
-                Location = new Point(3, 20)
+                Location = new Point(5, 35) // Posição ajustada para abaixo do painel da categoria
             };
 
-            // verifico se o parametro concluido é igual a sim, se for, marco o checkbox como marcado
+            // Verifico se o parâmetro concluída é igual a "Sim", se for, marco o checkbox como marcado
             if (Concluida == "Sim")
             {
                 newTaskCheckBox.Checked = true;
                 newTaskCheckBox.Font = new Font(newTaskCheckBox.Font, FontStyle.Strikeout);
             }
-            else // se não, marco o checkbox como desmarcado
+            else // Se não, marco o checkbox como desmarcado
             {
                 newTaskCheckBox.Checked = false;
                 newTaskCheckBox.Font = new Font(newTaskCheckBox.Font, FontStyle.Regular);
             }
 
-            // Adiciono um evento ao checkbox, para marcar a tarefa como concluida ou não
+            // Adiciono um evento ao checkbox, para marcar a tarefa como concluída ou não
             newTaskCheckBox.CheckedChanged += async (sender, e) =>
             {
-                await conn.OpenAsync(); // abro uma conexão com o banco de dados
+                await conn.OpenAsync(); // Abro uma conexão com o banco de dados
 
                 using (MySqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.Parameters.Clear();  // Limpar parçãmetros anteriores
+                    cmd.Parameters.Clear(); // Limpar parâmetros anteriores
                     if (newTaskCheckBox.Checked)
                     {
-                        // atualizo as informações no banco de dados                        
                         newTaskCheckBox.Font = new Font(newTaskCheckBox.Font, FontStyle.Strikeout);
-                        cmd.CommandText = "UPDATE Tarefas SET Concluida = \"Sim\" WHERE Nome = @Nome"; // marcando sim, se a checkbox for marcada
+                        cmd.CommandText = "UPDATE Tarefas SET Concluida = \"Sim\" WHERE Nome = @Nome"; // Marcando sim
                     }
-                    else // caso contrario
+                    else
                     {
                         newTaskCheckBox.Font = new Font(newTaskCheckBox.Font, FontStyle.Regular);
-                        cmd.CommandText = "UPDATE Tarefas SET Concluida = \"Não\" WHERE Nome = @Nome"; // marcando não, se a checkbox não for marcada
+                        cmd.CommandText = "UPDATE Tarefas SET Concluida = \"Não\" WHERE Nome = @Nome"; // Marcando não
                     }
 
-                    // adiciono o parametro nome ao comando e o executo no banco de dados
                     cmd.Parameters.AddWithValue("@Nome", task);
                     await cmd.ExecuteNonQueryAsync();
                 }
@@ -81,7 +121,7 @@ namespace To_do_List_List
                 await conn.CloseAsync();
             };
 
-            // Criar o botção para remover a tarefa
+            // Criar o botão para remover a tarefa
             Button removeButton = new Button
             {
                 BackColor = Color.Brown,
@@ -92,7 +132,7 @@ namespace To_do_List_List
                 Location = new Point(265, 0)
             };
 
-            // Adiciono um evento ao botção, para remover a tarefa
+            // Adiciono um evento ao botão, para remover a tarefa
             removeButton.Click += async (sender, e) =>
             {
                 await conn.OpenAsync();
@@ -100,43 +140,28 @@ namespace To_do_List_List
                 using (MySqlCommand cmd = conn.CreateCommand())
                 {
                     panelTarefas.Controls.Remove(newTaskPanel); // Remove o painel da lista
-
                     cmd.Parameters.Clear(); // Limpar parâmetros anteriores
-
                     cmd.CommandText = "DELETE FROM Tarefas WHERE Nome = @Nome";
                     cmd.Parameters.AddWithValue("@Nome", task);
-
-                    // executo o comando no banco de dados
                     await cmd.ExecuteNonQueryAsync();
                 }
 
-                await conn.CloseAsync(); // fecho a conexão
+                await conn.CloseAsync(); // Fecho a conexão
             };
 
-            // Adicionar o CheckBox e o boção ao painel da nova tarefa
+            // Adicionar os controles ao painel da nova tarefa
+            newTaskPanel.Controls.Add(panelCategoria);
             newTaskPanel.Controls.Add(newTaskCheckBox);
             newTaskPanel.Controls.Add(removeButton);
 
-            int taskCount;
-
             // Determinar a posição do novo painel baseado nas tarefas já existentes
-            try
-            {
-                taskCount = panelTarefas.Controls.Count;
-                newTaskPanel.Location = new Point(13, 17 + (taskCount * 75)); // Ajusta a posição para a próxima tarefa
-
-            }
-            catch (NullReferenceException)
-            {
-                newTaskPanel.Location = new Point(13, 17);
-            }
+            int taskCount = panelTarefas.Controls.Count;
+            newTaskPanel.Location = new Point(13, 17 + (taskCount * 105)); // Ajusta a posição para a próxima tarefa
 
             // Adicionar o painel da nova tarefa ao painel principal
             panelTarefas.Controls.Add(newTaskPanel);
 
-            // fechando a conexão
-            conn.Close();
-
+            await conn.CloseAsync(); // Fechar conexão
         }
     }
 }

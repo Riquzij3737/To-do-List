@@ -39,7 +39,7 @@
             button1.BackColor = SystemColors.ActiveCaption;
             button1.FlatStyle = FlatStyle.Popup;
             button1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(66, 35);
+            button1.Location = new Point(66, 14);
             button1.Name = "button1";
             button1.Size = new Size(327, 83);
             button1.TabIndex = 1;
@@ -77,6 +77,7 @@
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "Form1";
             Text = "Your To-Do-List";
+            Load += Form1_Load;
             panel1.ResumeLayout(false);
             ResumeLayout(false);
         }

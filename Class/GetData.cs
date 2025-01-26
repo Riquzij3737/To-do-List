@@ -1,81 +1,71 @@
-﻿// Aqui, Importo os namespaces utilizados no codigo
+﻿// Aqui, Importo os namespaces utilizados no código
 using System.Data;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
 // adiciona a classe a seguir dentro do namespace padrão da aplicação
-namespace To_do_List_List;
-
-// Crio a classe para conter o metodo Getdata
-public class GetData
+namespace To_do_List_List
 {
-    // Crio a propriedade connstring, que recebe a string de conexão
-    public readonly string connstring;
-
-    // Crio o construtor da classe GetData
-    public GetData(global::System.String connstring)
+    // Crio a classe para conter o método Getdata
+    public class GetData
     {
-        this.connstring = connstring; // Atribuo a string de conexão a propriedade connstring
-    }
+        // Propriedade connstring para armazenar a string de conexão
+        public readonly string connstring;
 
-    // Crio o metodo GetdataForID, Para pegar as informações do banco de dados
-    public async Task<Dictionary<string, Dictionary<string, string>>> GetdataForID()
-    {
-        // Crio a conexão com o banco de dados, dentro de um bloco using, Para após o uso, fechar a conexão
-        using (MySqlConnection conn = new MySqlConnection(this.connstring))
+        // Construtor da classe GetData
+        public GetData(string connstring)
         {
-            // abro a conexão de forma assincronica
-            await conn.OpenAsync();
+            this.connstring = connstring;
+        }
 
-            // Crio o comando SQL, para selecionar todos os dados da tabela Tarefas
-            using (MySqlCommand cmd = conn.CreateCommand())
+        // Método GetdataForID para obter dados do banco de dados
+        public async Task<SqlReaderObject> GetdataForID()
+        {
+            using (MySqlConnection conn = new MySqlConnection(connstring))
             {
-                // o comando para pegar os dados, armazenado em um commandtext
-                cmd.CommandText = "SELECT * FROM \"Tarefas\"";
+                await conn.OpenAsync(); // Abro a conexão com o banco de dados
 
-                // Executo o comando, e armazeno o resultado em um MySqlDataReader
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                using (MySqlCommand cmd = conn.CreateCommand())
                 {
-                    // Crio um dicionario para armazenar as tarefas, e suas respectivas conclusões
-                    Dictionary<string, Dictionary<string, string>> tasks = new Dictionary<string,Dictionary<string, string>>();                    
-
-                    // Para cada registro no reader, adiciono a tarefa e sua conclusão ao dicionario
-                    foreach (IDataRecord record in reader)
+                    cmd.CommandText = "SELECT * FROM tarefas"; // Defino a query SQL
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        switch (record["Categoria"])
-                        {
-                            case "nulo":
-                                tasks.Add(record["Nome"].ToString(), new Dictionary<string, string> { {record["Concluida"].ToString() , "Nulo"} });
-                                break;
-                            
-                            case "Relativa":
-                                tasks.Add(record["Nome"].ToString(), new Dictionary<string, string> { {record["Concluida"].ToString() , "Relativa"} });
-                                break;
-                            
-                            case "Importante":
-                                tasks.Add(record["Nome"].ToString(), new Dictionary<string, string> { {record["Concluida"].ToString() , "Importante"} });
-                                break;
-                            
-                            case "Muito Importante":
-                                tasks.Add(record["Nome"].ToString(), new Dictionary<string, string> { {record["Concluida"].ToString() , "Muito Importante"} });
-                                break;
-                            
-                            case "BEI":
-                                tasks.Add(record["Nome"].ToString(), new Dictionary<string, string> { {record["Concluida"].ToString() , "BEI"} });
-                                break;
-                            
-                            
-                        }
-                    }
+                        SqlReaderObject sqreader = new SqlReaderObject(); // Instancio a classe SqlReaderObject
 
-                    return tasks; // retorno o dicionario
+                        while (reader.Read())
+                        {
+                            // Adiciono os dados do banco de dados à classe SqlReaderObject
+                            sqreader.Nome.Add(reader["Nome"].ToString());
+                            sqreader.Concluidp.Add(reader["Concluida"].ToString());
+                            
+                            switch (reader["Categoria"].ToString())
+                            {
+                                case "Nulo":
+                                    sqreader.Categoria.Add("Nulo");
+                                    break;
+                                case "Relativa":
+                                    sqreader.Categoria.Add("Relativa");
+                                    break;
+                                case "Importante":
+                                    sqreader.Categoria.Add("Importante");
+                                    break;
+                                case "Muito Importante":
+                                    sqreader.Categoria.Add("Muito Importante");
+                                    break;
+                                case "BEI":
+                                    sqreader.Categoria.Add("BEI");
+                                    break;
+                            }
+                        }
+
+                        await conn.CloseAsync(); // Fecho a conexão com o banco de dados
+
+                        return sqreader;
+                    }
                 }
             }
-
         }
+
     }
-
-
 }
-

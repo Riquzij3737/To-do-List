@@ -1,10 +1,6 @@
 {
-    "MySqlObject":
-    {
-        "Host": "localhost",
-        "Port": 3306,
-        "User": "Henriqzin7607",
-        "Password": "E3T4L@D4ÃORO3UDAnd0M3usMe3sD4d0sDnv"
-    }
-    
+    "Host": "localhost",
+    "Port": 3306,
+    "User": "henriqzin7607",
+    "Password": "nova_senha_forte"
 }

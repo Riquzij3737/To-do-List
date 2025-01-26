@@ -68,7 +68,7 @@
             // checkedListBox1
             // 
             checkedListBox1.FormattingEnabled = true;
-            checkedListBox1.Items.AddRange(new object[] { "Big exterm importance(BEI) ", "Muito importante", "Importante", "Relativa ", "Nulo " });
+            checkedListBox1.Items.AddRange(new object[] { "Big exterm importance(BEI)", "Muito importante", "Importante", "Relativa", "Nulo" });
             checkedListBox1.Location = new Point(21, 213);
             checkedListBox1.Name = "checkedListBox1";
             checkedListBox1.Size = new Size(234, 114);

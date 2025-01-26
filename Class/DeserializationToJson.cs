@@ -20,16 +20,17 @@ namespace To_do_List_List
             }
             catch (Exception ex)
             {
-                throw new Exception("Error during deserialization: " + ex.Message);
+                Console.WriteLine("Erro ao deserializar o arquivo Json", ex);
+                return null;
             }
         }
 
         public static string MakeKey()
         {
             var obj = new MakeMysqlKey();
-            var obj2 = obj.Deserialization(); // Sem necessidade de conversão explícita
+            MySqlObject obj2 = obj.Deserialization(); // Sem necessidade de conversão explícita
 
-            string key = $"Server={obj2.Host};Port={obj2.Port};Database=To_do_List;Uid={obj2.User};Pwd={obj2.Password};";
+            string key = $"Server={obj2.Host};Port={obj2.Port};Database=tasks_db;Uid={obj2.User};Pwd={obj2.Password};";
 
             return key;
         }

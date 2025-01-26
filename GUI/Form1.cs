@@ -19,15 +19,20 @@ namespace To_do_List_List
             InitializeComponent();
 
             // Inicializa o painel com as tarefas salvas
-            ReaderTasksMethods.ReadToPanel(panel2, connectionString);
+
         }
 
         // Evento para adicionar uma nova tarefa
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             Form2 form = new Form2(panel2);
 
             form.ShowDialog();
+        }
+
+        private async void Form1_Load(object sender, EventArgs e)
+        {
+            await ReaderTasksMethods.ReadToPanel(panel2, connectionString);
         }
     }
 }

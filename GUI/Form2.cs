@@ -22,7 +22,6 @@ namespace To_do_List_List.GUI
 
             InitializeComponent();
         }
-
         private async void button1_Click(object sender, EventArgs e)
         {
             // Crio uma nova conexão com o banco de dados
@@ -37,7 +36,7 @@ namespace To_do_List_List.GUI
             else // caso o contrario
             {
                 // Abro a conexão com o banco de dados
-                conn.Open();
+                await conn.OpenAsync();
 
                 // Crio um novo comando SQL
                 using (MySqlCommand cmd = conn.CreateCommand())
@@ -45,49 +44,56 @@ namespace To_do_List_List.GUI
                     // Adicionar a tarefa ao banco de dados
                     cmd.CommandText = "INSERT INTO Tarefas (Nome, Concluida, Categoria) VALUES (@Nome, 'Não', @Categoria);";
                     cmd.Parameters.AddWithValue("@Nome", textBox1.Text);
-                    
+
                     // Instancio a classe addList
                     addList taskManager = new addList(Panelmanager);
 
                     // Adiciono a tarefa ao painel de modo assincrono
-                    switch (checkedListBox1.Text)
+                    var categoriaSelecionada = checkedListBox1.SelectedItem.ToString();
+                    switch (categoriaSelecionada)
                     {
                         case "Nulo":
                             await taskManager.Addtask(textBox1.Text, "Não", Categoria.Nulo, connectionString);
                             cmd.Parameters.AddWithValue("@Categoria", "Nulo");
-                            cmd.ExecuteNonQuery(); // executo o comando
+                            await cmd.ExecuteNonQueryAsync(); // Executo o comando de forma assíncrona
                             break;
 
                         case "Relativa":
                             await taskManager.Addtask(textBox1.Text, "Não", Categoria.Relativa, connectionString);
                             cmd.Parameters.AddWithValue("@Categoria", "Relativa");
-                            cmd.ExecuteNonQuery(); // executo o comando
+                            await cmd.ExecuteNonQueryAsync();
                             break;
 
                         case "Importante":
                             await taskManager.Addtask(textBox1.Text, "Não", Categoria.Importante, connectionString);
                             cmd.Parameters.AddWithValue("@Categoria", "Importante");
-                            cmd.ExecuteNonQuery(); // executo o comando
+                            await cmd.ExecuteNonQueryAsync();
                             break;
 
                         case "Muito importante":
                             await taskManager.Addtask(textBox1.Text, "Não", Categoria.Muito_importante, connectionString);
                             cmd.Parameters.AddWithValue("@Categoria", "Muito importante");
-                            cmd.ExecuteNonQuery(); // executo o comando
+                            await cmd.ExecuteNonQueryAsync();
                             break;
 
                         case "Big exterm importance(BEI)":
                             await taskManager.Addtask(textBox1.Text, "Não", Categoria.BEI, connectionString);
                             cmd.Parameters.AddWithValue("@Categoria", "BEI");
-                            cmd.ExecuteNonQuery(); // executo o comando
+                            await cmd.ExecuteNonQueryAsync();
                             break;
-
                     }
 
-                    conn.Close(); // E fecho a conexão
-
+                    // Fechar a conexão
+                    await conn.CloseAsync();
                 }
             }
+
+            // Aguardar por 3 segundos antes de fechar o formulário
+            await Task.Delay(2000);
+
+            // Fecho o formulário
+            this.Close();
         }
+
     }
 }
