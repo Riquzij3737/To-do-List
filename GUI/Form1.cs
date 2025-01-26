@@ -11,7 +11,7 @@ namespace To_do_List_List
     public partial class Form1 : Form // herdo propriedades e metodos da classe Form
     {
         // crio a string de conexão com o banco de dados
-        public readonly string connectionString = MakeMysqllKey.MakeKey();
+        public readonly string connectionString = MakeMysqlKey.MakeKey();
 
         // No construtor da classe, inicializo o formulario
         public Form1()

@@ -1,5 +1,5 @@
 {
-    "Mysql":
+    "MySqlObject":
     {
         "Host": "localhost",
         "Port": 3306,
