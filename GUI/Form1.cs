@@ -10,7 +10,7 @@ namespace To_do_List_List
     public partial class Form1 : Form // herdo propriedades e metodos da classe Form
     {
         // crio a string de conexão com o banco de dados
-        public readonly string connectionString = "Data Source=C:\\Visual Studio Projects\\_NetProjects\\C#\\To-do-List-List\\Data\\tasks.db;Version=3;";
+        public readonly string connectionString = "Server=myServerAddress;Database=myDataBase;Uid=henriqzin7607;Pwd=Y~@9qz0$pinto#m3r0ubal4~oL4d~oV+O9qP]9H;"
 
         // No construtor da classe, inicializo o formulario
         public Form1()

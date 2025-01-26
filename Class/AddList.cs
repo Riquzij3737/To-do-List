@@ -1,6 +1,5 @@
-// IMporto o sqlite e o namespace padrão da aplicação
-
-using System.Data.SQLite;
+// IMporto o Mysql e o namespace padrão da aplicação
+using MySql.Data.MySqlClient;
 using To_do_List_List;
 
 // adiciona a classe a seguir dentro do namespace padrão da aplicação
@@ -23,7 +22,7 @@ namespace To_do_List_List
         // Crio o metodo Addtask, para adicionar uma tarefa ao painel
         public async Task Addtask(string task, string Concluida, string connectionString)
         {
-            SQLiteConnection conn = new SQLiteConnection(connectionString);
+            MySqlConnection conn = new MySqlConnection(connectionString); // Crio a conexão com o banco de dados
 
             // Criar um novo painel para a nova tarefa
             Panel newTaskPanel = new Panel
@@ -59,7 +58,7 @@ namespace To_do_List_List
             {
                 await conn.OpenAsync(); // abro uma conexão com o banco de dados
 
-                using (SQLiteCommand cmd = conn.CreateCommand())
+                using (MySqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.Parameters.Clear();  // Limpar parçãmetros anteriores
                     if (newTaskCheckBox.Checked)
@@ -98,7 +97,7 @@ namespace To_do_List_List
             {
                 await conn.OpenAsync();
 
-                using (SQLiteCommand cmd = conn.CreateCommand())
+                using (MySqlCommand cmd = conn.CreateCommand())
                 {
                     panelTarefas.Controls.Remove(newTaskPanel); // Remove o painel da lista
 

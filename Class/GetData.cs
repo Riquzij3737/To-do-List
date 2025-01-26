@@ -1,6 +1,6 @@
 ﻿// Aqui, Importo os namespaces utilizados no codigo
 using System.Data;
-using System.Data.SQLite;
+using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 
 // adiciona a classe a seguir dentro do namespace padrão da aplicação
@@ -22,19 +22,19 @@ public class GetData
     public async Task<Dictionary<string, string>> GetdataForID()
     {
         // Crio a conexão com o banco de dados, dentro de um bloco using, Para após o uso, fechar a conexão
-        using (SQLiteConnection conn = new SQLiteConnection(this.connstring))
+        using (MySqlConnection conn = new MySqlConnection(this.connstring))
         {
             // abro a conexão de forma assincronica
             await conn.OpenAsync();
 
             // Crio o comando SQL, para selecionar todos os dados da tabela Tarefas
-            using (SQLiteCommand cmd = conn.CreateCommand())
+            using (MySqlCommand cmd = conn.CreateCommand())
             {
                 // o comando para pegar os dados, armazenado em um commandtext
                 cmd.CommandText = "SELECT * FROM \"Tarefas\"";
 
-                // Executo o comando, e armazeno o resultado em um SQLiteDataReader
-                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                // Executo o comando, e armazeno o resultado em um MySqlDataReader
+                using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
                     // Crio um dicionario para armazenar as tarefas, e suas respectivas conclusões
                     Dictionary<string, string> tasks = new Dictionary<string, string>();
@@ -42,7 +42,7 @@ public class GetData
                     // Para cada registro no reader, adiciono a tarefa e sua conclusão ao dicionario
                     foreach (IDataRecord record in reader)
                     {
-                        tasks.Add(record["Nome"].ToString(), record["Concluida"].ToString());
+                        tasks.Add(record["Nome"].ToString(), record[""].ToString());
                     }
 
                     return tasks; // retorno o dicionario

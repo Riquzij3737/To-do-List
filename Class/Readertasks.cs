@@ -1,10 +1,11 @@
 ﻿// Importo os namespaces nescessários
 
 using To_do_List_List;
-using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 // adiciona a classe a seguir dentro do namespace padrão da aplicação
 namespace To_do_List_List;
@@ -22,7 +23,7 @@ public class ReaderTasksMethods
         Dictionary<string,string> tasks = await data.GetdataForID();
 
         // Abro a conexão com o banco de dados
-        using (SQLiteConnection conn = new SQLiteConnection(connectionString))
+        using (MySqlConnection conn = new MySqlConnection(connectionString))
         {
             conn.Open();
 

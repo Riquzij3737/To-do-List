@@ -28,20 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
             button1 = new Button();
             panel1 = new Panel();
             panel2 = new Panel();
+            textBox1 = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // textBox1
-            // 
-            textBox1.Font = new Font("Segoe UI Historic", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(24, 44);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(373, 38);
-            textBox1.TabIndex = 0;
             // 
             // button1
             // 
@@ -76,6 +68,14 @@
             panel2.Size = new Size(327, 391);
             panel2.TabIndex = 3;
             // 
+            // textBox1
+            // 
+            textBox1.Font = new Font("Segoe UI Historic", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(24, 44);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(373, 38);
+            textBox1.TabIndex = 0;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -93,10 +93,9 @@
         }
 
         #endregion
-
-        private TextBox textBox1;
         private Button button1;
         private Panel panel1;
         private Panel panel2;
+        private TextBox textBox1;
     }
 }
