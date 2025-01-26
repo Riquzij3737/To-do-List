@@ -25,7 +25,7 @@ public class MakeMysqllKey
         }
     }
 
-    public static async Task<string> MakeKey()
+    public static string MakeKey()
     {
         var obj = new MakeMysqllKey();
         var obj2 = (MySqlObject)obj.Desearilation();
