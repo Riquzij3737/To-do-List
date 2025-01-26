@@ -10,7 +10,7 @@ A utilização é bem simples:
 
 Primeiro, você deve instalar o git em sua máquina, caso não tenha instalado. Para isso, acesse o site oficial do git e siga as instruções de instalação. Depois, no terminal, digite:
 
-```Powershell
+```CMD
 git clone https://github.com/Riquzij3737/To-do-List.git 
 ```
 
@@ -74,7 +74,7 @@ As tecnologias utilizadas foram:
 
 Espero que gostem do projeto e que ele seja útil para vocês.
 
-Irei adicionar dois arquivos a mais no código, um é o build.ps1, que é um script que irá compilar o projeto e executá-lo, e o outro é o build.sh, que é o mesmo que o build.ps1, mas para Linux.
+Irei adicionar dois arquivos a mais no código, um é o build.Bat, que é um script que irá compilar o projeto e executá-lo, e o outro é o build.sh, que é o mesmo que o build.Bat, mas para Linux.
 
 Obrigado por instalar meu projeto. Caso encontre algum erro, e queira reportar, por favor, me avise.
 
