@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using To_do_List_List.GUI;
+using System.ComponentModel.Design;
 
 // adiciona a classe a seguir dentro do namespace padrão da aplicação
 namespace To_do_List_List
@@ -26,40 +27,38 @@ namespace To_do_List_List
             {
                 await conn.OpenAsync();
 
+                
+
                 // Para cada tarefa na lista
-                foreach (var task in tasks.Nome)
+
+                addList add = new addList(panelTarefas);
+
+                for (int i = 0; i < 100; i++)
                 {
-                    foreach (var status in tasks.Concluidp)
+                    switch (tasks.Categoria[i])
                     {
-                        foreach (var category in tasks.Categoria)
-                        {
-                            addList add = new addList(panelTarefas);
+                        case "Nulo":
+                            await add.Addtask(tasks.Nome[i], tasks.Concluidp[i], Categoria.Nulo, connectionString);
+                            break;
 
-                            switch (category)
-                            {
-                                case "Nulo":
-                                    await add.Addtask(task, status, Categoria.Nulo, connectionString);
-                                    break;
-
-                                case "Relativa":
-                                    await add.Addtask(task, status, Categoria.Relativa, connectionString);
-                                    break;
-
-                                case "Importante":
-                                    await add.Addtask(task, status, Categoria.Importante, connectionString);
-                                    break;
-
-                                case "Muito Importante":
-                                    await add.Addtask(task, status, Categoria.Muito_importante, connectionString);
-                                    break;
-
-                                case "BEI":
-                                    await add.Addtask(task, status, Categoria.BEI, connectionString);
-                                    break;
-                            }
-                        }
+                        case "Relativa":
+                            await add.Addtask(tasks.Nome[i], tasks.Concluidp[i], Categoria.Relativa, connectionString);
+                            break;
+                        
+                        case "Importante":
+                            await add.Addtask(tasks.Nome[i], tasks.Concluidp[i], Categoria.Importante, connectionString);
+                            break;
+                        
+                        case "Muito importante":
+                            await add.Addtask(tasks.Nome[i], tasks.Concluidp[i], Categoria.Muito_importante, connectionString);
+                            break;
+                        
+                        case "BEI":
+                            await add.Addtask(tasks.Nome[i], tasks.Concluidp[i], Categoria.BEI, connectionString);
+                            break;
                     }
                 }
+
             }
         }
     }

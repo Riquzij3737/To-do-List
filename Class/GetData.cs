@@ -21,42 +21,29 @@ namespace To_do_List_List
 
         // Método GetdataForID para obter dados do banco de dados
         public async Task<SqlReaderObject> GetdataForID()
-        {
+        {            
             using (MySqlConnection conn = new MySqlConnection(connstring))
             {
                 await conn.OpenAsync(); // Abro a conexão com o banco de dados
 
                 using (MySqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT * FROM tarefas"; // Defino a query SQL
+                    cmd.CommandText = "SELECT Nome, Concluida, Categoria FROM tarefas"; // Defino a query SQL
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         SqlReaderObject sqreader = new SqlReaderObject(); // Instancio a classe SqlReaderObject
 
-                        while (reader.Read())
-                        {
+                        int i = 0;
+
+                        foreach (IDataRecord rdr in reader)
+                        {                                                        
+
                             // Adiciono os dados do banco de dados à classe SqlReaderObject
-                            sqreader.Nome.Add(reader["Nome"].ToString());
-                            sqreader.Concluidp.Add(reader["Concluida"].ToString());
+                            sqreader.Nome[i] = rdr["Nome"].ToString();
+                            sqreader.Concluidp[i] = rdr["Concluida"].ToString();
+                            sqreader.Categoria[i] = rdr["Categoria"].ToString();                            
                             
-                            switch (reader["Categoria"].ToString())
-                            {
-                                case "Nulo":
-                                    sqreader.Categoria.Add("Nulo");
-                                    break;
-                                case "Relativa":
-                                    sqreader.Categoria.Add("Relativa");
-                                    break;
-                                case "Importante":
-                                    sqreader.Categoria.Add("Importante");
-                                    break;
-                                case "Muito Importante":
-                                    sqreader.Categoria.Add("Muito Importante");
-                                    break;
-                                case "BEI":
-                                    sqreader.Categoria.Add("BEI");
-                                    break;
-                            }
+                            i++;
                         }
 
                         await conn.CloseAsync(); // Fecho a conexão com o banco de dados

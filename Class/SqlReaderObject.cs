@@ -8,18 +8,15 @@ namespace To_do_List_List
 {
     public class SqlReaderObject
     {
-        public HashSet<string> Nome { get; set; }
-        public HashSet<string> Concluidp { get; set; }
-        public HashSet<string> Categoria { get; set; }
-
+        public string[] Nome { get; set; }
+        public string[] Concluidp { get; set; }
+        public string[] Categoria { get; set; }
 
         public SqlReaderObject()
         {
-            Nome = new HashSet<string>();
-            Concluidp = new HashSet<string>();
-            Categoria = new HashSet<string>();
+            Nome = new string[100];
+            Concluidp = new string[100];
+            Categoria = new string[100];
         }
-
-        
     }
 }
