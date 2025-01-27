@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,12 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using To_do_List_List.Security;
 
 namespace To_do_List_List.GUI
 {
     public partial class Form3 : Form
     {
-
+        public readonly string connectionString = MakeMysqlKey.MakeKey("Users_Tasksoftwares");
 
         public Form3()
         {
@@ -29,11 +31,55 @@ namespace To_do_List_List.GUI
             if (String.IsNullOrEmpty(textBox2.Text) || String.IsNullOrEmpty(textBox1.Text))
             {
                 throw new ArgumentNullException("Oq tu quer q eu faça? adiciona um usuario no banco de dados sem ter a senha ou nome?\n Vai toma no seu cu:D");
-            } else
-            {
-                
             }
+            else
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
 
+                    using (MySqlCommand cmd = conn.CreateCommand())
+                    {
+                        Encryptor encryptor = new Encryptor();
+
+                        byte[] textocriptografado = encryptor.Encryp(textBox2.Text);
+
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "INSERT INTO Users_tb (Nome, Senha, TBL_Tasks) VALUES (@Nome, @Senha, @TBL_Tasks)";
+
+                        cmd.Parameters.AddWithValue("@Nome", textBox1.Text);
+                        cmd.Parameters.AddWithValue("@Senha", textocriptografado);
+                        cmd.Parameters.AddWithValue("@TBL_Tasks", textBox1.Text + "_Tsk");
+
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                            MessageBox.Show("Conta criada com sucesso!", "To-Do-List", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+                            Form1 form = new Form1();
+
+                            form.ShowDialog();
+
+                            this.Close();
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Erro: {ex}", "Tratamento de erros", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                        finally
+                        {
+                            conn.Close();
+
+                            GC.Collect(conn.GetHashCode());
+
+                        }
+
+                    }
+                }
+            }
         }
+
     }
 }
+

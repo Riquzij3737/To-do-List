@@ -13,7 +13,7 @@ namespace To_do_List_List.GUI
 {
     public partial class Form2 : Form
     {
-        public readonly string connectionString = MakeMysqlKey.MakeKey(); // Crio a string de conexão com o banco de dados        
+        public readonly string connectionString = MakeMysqlKey.MakeKey("Tasks_db"); // Crio a string de conexão com o banco de dados        
         public Panel Panelmanager;
 
         public Form2(Panel form)

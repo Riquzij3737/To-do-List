@@ -31,10 +31,10 @@
             label1 = new Label();
             label2 = new Label();
             panel1 = new Panel();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            button1 = new Button();
             button2 = new Button();
+            button1 = new Button();
+            textBox2 = new TextBox();
+            textBox1 = new TextBox();
             label3 = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -74,19 +74,15 @@
             panel1.Size = new Size(359, 343);
             panel1.TabIndex = 2;
             // 
-            // textBox1
+            // button2
             // 
-            textBox1.Location = new Point(21, 74);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(326, 27);
-            textBox1.TabIndex = 2;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(16, 197);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(326, 27);
-            textBox2.TabIndex = 3;
+            button2.Location = new Point(180, 270);
+            button2.Name = "button2";
+            button2.Size = new Size(97, 66);
+            button2.TabIndex = 5;
+            button2.Text = "Criar Conta";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button1
             // 
@@ -97,15 +93,20 @@
             button1.Text = "Logar";
             button1.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // textBox2
             // 
-            button2.Location = new Point(180, 270);
-            button2.Name = "button2";
-            button2.Size = new Size(97, 66);
-            button2.TabIndex = 5;
-            button2.Text = "Criar Conta";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            textBox2.Location = new Point(16, 197);
+            textBox2.Name = "textBox2";
+            textBox2.PasswordChar = '*';
+            textBox2.Size = new Size(326, 27);
+            textBox2.TabIndex = 3;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(21, 74);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(326, 27);
+            textBox1.TabIndex = 2;
             // 
             // label3
             // 

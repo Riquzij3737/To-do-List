@@ -25,12 +25,12 @@ namespace To_do_List_List
             }
         }
 
-        public static string MakeKey()
+        public static string MakeKey(string database)
         {
             var obj = new MakeMysqlKey();
             MySqlObject obj2 = obj.Deserialization(); // Sem necessidade de conversão explícita
 
-            string key = $"Server={obj2.Host};Port={obj2.Port};Database=tasks_db;Uid={obj2.User};Pwd={obj2.Password};";
+            string key = $"Server={obj2.Host};Port={obj2.Port};Database={database};Uid={obj2.User};Pwd={obj2.Password};";
 
             return key;
         }
