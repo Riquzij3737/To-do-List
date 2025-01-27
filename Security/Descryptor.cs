@@ -1,49 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace To_do_List_List.Security
 {
     internal class Descryptor : ICipher
     {
-        byte[] ICipher.IV {  get; set; }
-        byte[] ICipher.key { get; set; }
+        public byte[] key { get; set; }
+        public byte[] IV { get; set; }
 
         public Descryptor()
         {
-            ICipher cipher = new Encryptor();
+            generationkey();
+        }
 
-            cipher.generationkey();
+        public void generationkey()
+        {
+            using (Aes aes = Aes.Create())
+            {
+                key = aes.Key;
+                IV = aes.IV;
+            }
         }
 
         public string DescryptText(byte[] textCipherd)
         {
-            ICipher cipher = new Descryptor();
-
             using (Aes aes = Aes.Create())
             {
-                aes.IV = cipher.IV;
-                aes.Key = cipher.key;
+                aes.IV = IV;
+                aes.Key = key;
                 aes.Mode = CipherMode.CBC;
-                aes.Padding = PaddingMode.None;
+                aes.Padding = PaddingMode.PKCS7;
 
                 using (MemoryStream ms = new MemoryStream())
                 {
                     using (CryptoStream cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write))
                     {
-                        ms.Write(textCipherd, 0, textCipherd.Length);
+                        cs.Write(textCipherd, 0, textCipherd.Length);
+                        cs.FlushFinalBlock();
 
-                        string textodescriptografado = Convert.ToBase64String(ms.ToArray());
-
+                        string textodescriptografado = Encoding.UTF8.GetString(ms.ToArray());
                         return textodescriptografado;
                     }
-
                 }
             }
         }
-
     }
+   
 }

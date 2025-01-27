@@ -42,25 +42,30 @@ namespace To_do_List_List.GUI
                     {
                         Encryptor encryptor = new Encryptor();
 
-                        byte[] textocriptografado = encryptor.Encryp(textBox2.Text);
+                        string textocriptografado = encryptor.Encryp(textBox2.Text);
+                        string acessadortabela = textBox1.Text + "_Tsk";
 
                         cmd.Parameters.Clear();
                         cmd.CommandText = "INSERT INTO Users_tb (Nome, Senha, TBL_Tasks) VALUES (@Nome, @Senha, @TBL_Tasks)";
 
                         cmd.Parameters.AddWithValue("@Nome", textBox1.Text);
                         cmd.Parameters.AddWithValue("@Senha", textocriptografado);
-                        cmd.Parameters.AddWithValue("@TBL_Tasks", textBox1.Text + "_Tsk");
+                        cmd.Parameters.AddWithValue("@TBL_Tasks", acessadortabela);
 
                         try
                         {
                             cmd.ExecuteNonQuery();
                             MessageBox.Show("Conta criada com sucesso!", "To-Do-List", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
 
+                            this.Close();
+
+                            cmd.CommandText =
+
                             Form1 form = new Form1();
 
                             form.ShowDialog();
 
-                            this.Close();
+                            
 
                         }
                         catch (Exception ex)

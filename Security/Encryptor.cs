@@ -1,46 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace To_do_List_List.Security
 {
     internal class Encryptor : ICipher
     {
-        byte[] ICipher.key { get; set; }
-        byte[] ICipher.IV { get; set; }
+        public byte[] key { get; set; }
+        public byte[] IV { get; set; }
 
         public Encryptor()
         {
-            ICipher cipher = new Encryptor();
-
-            cipher.generationkey();
+            generationkey();
         }
 
-        public byte[] Encryp(string texto)
-        {           
-            ICipher cipher = new Encryptor();
-
+        public void generationkey()
+        {
             using (Aes aes = Aes.Create())
             {
-                aes.Key = cipher.key;
-                aes.IV = cipher.IV;
+                key = aes.Key;
+                IV = aes.IV;
+            }
+        }
+
+        public string Encryp(string texto)
+        {
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = key;
+                aes.IV = IV;
                 aes.Mode = CipherMode.CBC;
-                aes.Padding = PaddingMode.None;
+                aes.Padding = PaddingMode.PKCS7;
 
                 using (MemoryStream ms = new MemoryStream())
                 {
                     using (CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
                     {
-                        ms.Write(cipher.key, 0, texto.Length);
+                        byte[] plainTextBytes = Encoding.UTF8.GetBytes(texto);
+                        cs.Write(plainTextBytes, 0, plainTextBytes.Length);
+                        cs.FlushFinalBlock();
 
-                        return ms.ToArray();
+                        string texto_criptografado = Convert.ToBase64String(ms.ToArray());
+
+                        return texto_criptografado;
                     }
-
                 }
             }
         }
     }
+
+    
 }
