@@ -20,7 +20,7 @@ namespace To_do_List_List
         }
 
         // Método GetdataForID para obter dados do banco de dados
-        public async Task<SqlReaderObject> GetdataForID()
+        public async Task<SqlReaderObject> GetdataForID(string acessor)
         {            
             using (MySqlConnection conn = new MySqlConnection(connstring))
             {
@@ -28,7 +28,7 @@ namespace To_do_List_List
 
                 using (MySqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT Nome, Concluida, Categoria FROM tarefas"; // Defino a query SQL
+                    cmd.CommandText = $"SELECT Nome, Concluida, Categoria FROM {acessor}"; // Defino a query SQL
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         SqlReaderObject sqreader = new SqlReaderObject(); // Instancio a classe SqlReaderObject

@@ -20,14 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Config\SQL\CreateTable.designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CreateTable.sql</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Config\SQL\CreateTable.sql">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>CreateTable.designer.cs</LastGenOutput>

@@ -1,6 +1,6 @@
-CREATE TABLE IF NOT EXISTS Tarefas (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    Nome TEXT NOT NULL,
-    Concluida TEXT NOT NULL
-);
-
+CREATE TABLE `tasks_db`.`teste` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Nome` VARCHAR(45) NOT NULL,
+  `Concluida` VARCHAR(3) NOT NULL,
+  `Categoria` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`ID`));

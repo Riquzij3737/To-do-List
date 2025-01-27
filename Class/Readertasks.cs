@@ -14,13 +14,13 @@ namespace To_do_List_List
     // Crio a classe para conter o método ReadToPanel
     public class ReaderTasksMethods
     {
-        public static async Task ReadToPanel(Panel panelTarefas, string connectionString)
+        public static async Task ReadToPanel(Panel panelTarefas, string connectionString, string acessor)
         {
             // Instancio a classe GetData, passando a string de conexão
             GetData data = new GetData(connectionString);
 
             // Chamo o método GetdataForID, que retorna uma lista de arrays de strings
-            SqlReaderObject tasks = await data.GetdataForID();
+            SqlReaderObject tasks = await data.GetdataForID(acessor);
 
             // Abro a conexão com o banco de dados
             using (MySqlConnection conn = new MySqlConnection(connectionString))

@@ -12,11 +12,14 @@ namespace To_do_List_List
     {
         // crio a string de conexão com o banco de dados
         public readonly string connectionString = MakeMysqlKey.MakeKey("tasks_db");
+        public readonly string Acessor;
 
         // No construtor da classe, inicializo o formulario
-        public Form1()
+        public Form1(string Nomedoacessor)
         {
             InitializeComponent();
+
+            Acessor = Nomedoacessor;
 
             // Inicializa o painel com as tarefas salvas
 
@@ -32,7 +35,7 @@ namespace To_do_List_List
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            await ReaderTasksMethods.ReadToPanel(panel2, connectionString);
+            await ReaderTasksMethods.ReadToPanel(panel2, connectionString, Acessor);
         }
     }
 }

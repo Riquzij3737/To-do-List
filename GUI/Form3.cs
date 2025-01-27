@@ -51,6 +51,13 @@ namespace To_do_List_List.GUI
                         cmd.Parameters.AddWithValue("@Nome", textBox1.Text);
                         cmd.Parameters.AddWithValue("@Senha", textocriptografado);
                         cmd.Parameters.AddWithValue("@TBL_Tasks", acessadortabela);
+                        cmd.CommandText = $@"CREATE TABLE `tasks_db`.`{acessadortabela}` (
+                                                    `ID` INT NOT NULL AUTO_INCREMENT,
+                                                     `Nome` VARCHAR(45) NOT NULL,
+                                                     `Concluida` VARCHAR(3) NOT NULL,
+                                                     `Categoria` VARCHAR(45) NOT NULL,
+                                                     PRIMARY KEY (`ID`));
+                                                ";
 
                         try
                         {
@@ -58,14 +65,12 @@ namespace To_do_List_List.GUI
                             MessageBox.Show("Conta criada com sucesso!", "To-Do-List", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
 
                             this.Close();
-
-                            cmd.CommandText =
-
-                            Form1 form = new Form1();
+                           
+                            Form1 form = new Form1(acessadortabela);
 
                             form.ShowDialog();
 
-                            
+
 
                         }
                         catch (Exception ex)
