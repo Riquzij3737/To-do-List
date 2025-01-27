@@ -2,5 +2,14 @@
     "Host": "localhost",
     "Port": 3306,
     "User": "henriqzin7607",
-    "Password": "nova_senha_forte"
+    "Password": "nova_senha_forte",
+
+  "CriptConfig": {
+
+    "KeySize": 32,
+    "IvSize": 16,
+    "PadingMode": "None",
+    "CipherMode": "CBC"
+
+  }
 }

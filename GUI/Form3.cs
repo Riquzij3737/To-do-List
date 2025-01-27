@@ -12,6 +12,8 @@ namespace To_do_List_List.GUI
 {
     public partial class Form3 : Form
     {
+
+
         public Form3()
         {
             InitializeComponent();
@@ -29,7 +31,7 @@ namespace To_do_List_List.GUI
                 throw new ArgumentNullException("Oq tu quer q eu faça? adiciona um usuario no banco de dados sem ter a senha ou nome?\n Vai toma no seu cu:D");
             } else
             {
-
+                
             }
 
         }
