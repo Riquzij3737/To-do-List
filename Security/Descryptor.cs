@@ -17,15 +17,17 @@ namespace To_do_List_List.Security
 
         public void generationkey()
         {
-            using (Aes aes = Aes.Create())
-            {
-                key = aes.Key;
-                IV = aes.IV;
-            }
+
+            Descryptor descryptor = new Descryptor();
+            GenerationDatasKey generationDatasKey = new GenerationDatasKey();
+            descryptor.key = generationDatasKey.key;
+            descryptor.IV = generationDatasKey.IV;
         }
 
-        public string DescryptText(byte[] textCipherd)
+        public string DescryptText(string textCipherdBase64)
         {
+            byte[] textCipherd = Convert.FromBase64String(textCipherdBase64); // Decodifica a string Base64 para byte[]
+
             using (Aes aes = Aes.Create())
             {
                 aes.IV = IV;
@@ -46,6 +48,7 @@ namespace To_do_List_List.Security
                 }
             }
         }
+
     }
-   
+
 }

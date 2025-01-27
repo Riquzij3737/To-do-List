@@ -64,11 +64,16 @@ namespace To_do_List_List.GUI
                             cmd.ExecuteNonQuery();
                             MessageBox.Show("Conta criada com sucesso!", "To-Do-List", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
 
+
+
                             this.Close();
-                           
-                            Form1 form = new Form1(acessadortabela);
+
+                            Form1 form = new Form1();
+
+                            Form1.Acessor = acessadortabela;
 
                             form.ShowDialog();
+
 
 
 
@@ -90,6 +95,52 @@ namespace To_do_List_List.GUI
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(textBox2.Text) || String.IsNullOrEmpty(textBox1.Text))
+            {
+                throw new ArgumentNullException("Oq tu quer q eu faça? adiciona um usuario no banco de dados sem ter a senha ou nome?\n Vai toma no seu cu:D");
+            }
+            else
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    using (MySqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "select * from users_tb";
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Descryptor descryptor = new Descryptor();
+
+                                string senha = descryptor.DescryptText(reader["Senha"].ToString());
+
+                                if (textBox1.Text == reader["Nome"].ToString() && textBox2.Text == senha)
+                                {
+                                    MessageBox.Show("Conta acessada com sucesso com sucesso!", "To-Do-List", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+                                    Form1 form = new Form1();
+                                    Form3 form3 = new Form3();
+                                    Form1.Acessor = reader["TBL_Tasks"].ToString();
+                                    form.ShowDialog();                                    
+                                    
+
+                                    break;
+                                } else
+                                {
+                                    MessageBox.Show("Acesso negado!");
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

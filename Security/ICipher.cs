@@ -1,23 +1,8 @@
 ﻿namespace To_do_List_List.Security
 {
-    public interface ICipher
+    public class ICipherKey
     {
-        byte[] key { get; set; }
-        byte[] IV { get; set; }
-
-        void generationkey();
-    }
-
-
-
-    public class GenerationDatasKey : ICipher
-    {
-        public byte[] key { get; set; }
-        public byte[] IV { get; set; }
-
-        public void generationkey()
-        {
-            this.key = new byte[32]
+        public byte[] key = new byte[32]
             {
                 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
                 0x09, 0x10, 0x20, 0x40, 0x80, 0x32, 0x45, 0x31,
@@ -25,13 +10,12 @@
                 0x99, 0x85, 0x38, 0x78, 0x23, 0x36, 0xb9, 0xfe
             };
 
-            this.IV = new byte[16]
+        public byte[] IV = new byte[16]
             {
                 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
                 0x09, 0x10, 0x20, 0x40, 0x80, 0x32, 0x45, 0x31
             };
-        }
-    }
 
+    }
 
 }

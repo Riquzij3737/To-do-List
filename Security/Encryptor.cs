@@ -17,11 +17,11 @@ namespace To_do_List_List.Security
 
         public void generationkey()
         {
-            using (Aes aes = Aes.Create())
-            {
-                key = aes.Key;
-                IV = aes.IV;
-            }
+            Encryptor encryptor = new Encryptor();
+            GenerationDatasKey generationDatasKey = new GenerationDatasKey();
+            generationDatasKey.generationkey();
+            encryptor.key = generationDatasKey.key;
+            encryptor.IV = generationDatasKey.IV;
         }
 
         public string Encryp(string texto)
