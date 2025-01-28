@@ -63,19 +63,12 @@ namespace To_do_List_List.GUI
                         {
                             cmd.ExecuteNonQuery();
                             MessageBox.Show("Conta criada com sucesso!", "To-Do-List", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-
-
-
-                            this.Close();
-
+                            
                             Form1 form = new Form1();
 
                             Form1.Acessor = acessadortabela;
 
                             form.ShowDialog();
-
-
-
 
                         }
                         catch (Exception ex)

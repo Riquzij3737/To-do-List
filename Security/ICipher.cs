@@ -1,6 +1,6 @@
 ﻿namespace To_do_List_List.Security
 {
-    public class ICipherKey
+    public class CipherKey
     {
         public byte[] key = new byte[32]
             {

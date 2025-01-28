@@ -5,50 +5,32 @@ using System.Text;
 
 namespace To_do_List_List.Security
 {
-    internal class Descryptor : ICipher
+    internal class Descryptor
     {
-        public byte[] key { get; set; }
-        public byte[] IV { get; set; }
-
-        public Descryptor()
-        {
-            generationkey();
-        }
-
-        public void generationkey()
-        {
-
-            Descryptor descryptor = new Descryptor();
-            GenerationDatasKey generationDatasKey = new GenerationDatasKey();
-            descryptor.key = generationDatasKey.key;
-            descryptor.IV = generationDatasKey.IV;
-        }
-
         public string DescryptText(string textCipherdBase64)
         {
-            byte[] textCipherd = Convert.FromBase64String(textCipherdBase64); // Decodifica a string Base64 para byte[]
+            byte[] bufferCrip = Convert.FromBase64String(textCipherdBase64);
+
+            CipherKey keys = new CipherKey();
 
             using (Aes aes = Aes.Create())
             {
-                aes.IV = IV;
-                aes.Key = key;
+                aes.Key = keys.key;
+                aes.IV = keys.IV;
                 aes.Mode = CipherMode.CBC;
                 aes.Padding = PaddingMode.PKCS7;
 
-                using (MemoryStream ms = new MemoryStream())
+                using (MemoryStream ms = new MemoryStream(bufferCrip))
                 {
-                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write))
+                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Read))
                     {
-                        cs.Write(textCipherd, 0, textCipherd.Length);
-                        cs.FlushFinalBlock();
-
-                        string textodescriptografado = Encoding.UTF8.GetString(ms.ToArray());
-                        return textodescriptografado;
+                        using (StreamReader reader = new StreamReader(cs, Encoding.UTF8))
+                        {
+                            return reader.ReadToEnd();
+                        }
                     }
                 }
             }
         }
-
     }
-
 }

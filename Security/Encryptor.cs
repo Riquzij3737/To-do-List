@@ -2,34 +2,20 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using To_do_List_List.Security;
 
 namespace To_do_List_List.Security
 {
-    internal class Encryptor : ICipher
+    internal class Encryptor 
     {
-        public byte[] key { get; set; }
-        public byte[] IV { get; set; }
-
-        public Encryptor()
-        {
-            generationkey();
-        }
-
-        public void generationkey()
-        {
-            Encryptor encryptor = new Encryptor();
-            GenerationDatasKey generationDatasKey = new GenerationDatasKey();
-            generationDatasKey.generationkey();
-            encryptor.key = generationDatasKey.key;
-            encryptor.IV = generationDatasKey.IV;
-        }
-
         public string Encryp(string texto)
-        {
+        {           
             using (Aes aes = Aes.Create())
             {
-                aes.Key = key;
-                aes.IV = IV;
+                CipherKey cipher = new CipherKey();
+
+                aes.Key = cipher.key;
+                aes.IV = cipher.IV;
                 aes.Mode = CipherMode.CBC;
                 aes.Padding = PaddingMode.PKCS7;
 
