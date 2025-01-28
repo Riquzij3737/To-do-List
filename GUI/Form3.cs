@@ -105,7 +105,8 @@ namespace To_do_List_List.GUI
                     conn.Open();
 
                     // Usando parâmetros para evitar SQL Injection
-                    string query = "SELECT * FROM users_tb WHERE Nome = @Nome AND Senha = @Senha";
+                    string query = @" use users_tasksoftwares;
+                    SELECT * FROM users_tb WHERE Nome = @Nome AND Senha = @Senha";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         // Adicionando parâmetros
