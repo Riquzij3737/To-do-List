@@ -26,7 +26,7 @@ namespace To_do_List_List.GUI
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(textBox2.Text) || String.IsNullOrEmpty(textBox1.Text))
             {
@@ -43,11 +43,15 @@ namespace To_do_List_List.GUI
                         string acessadortabela = textBox1.Text + "_Tsk";
 
                         cmd.Parameters.Clear();
-                        cmd.CommandText = "INSERT INTO Users_tb (Nome, Senha, TBL_Tasks) VALUES (@Nome, @Senha, @TBL_Tasks)";
+                        cmd.CommandText = @" use users_tasksoftwares;
+                        INSERT INTO users_tb (Nome, Senha, TBL_Tasks) VALUES (@Nome, @Senha, @TBL_Tasks);";
 
                         cmd.Parameters.AddWithValue("@Nome", textBox1.Text);
                         cmd.Parameters.AddWithValue("@Senha", textBox2.Text);
                         cmd.Parameters.AddWithValue("@TBL_Tasks", acessadortabela);
+
+                        await cmd.ExecuteNonQueryAsync();
+
                         cmd.CommandText = $@"CREATE TABLE `tasks_db`.`{acessadortabela}` (
                                             `ID` INT NOT NULL AUTO_INCREMENT,
                                              `Nome` VARCHAR(45) NOT NULL,
