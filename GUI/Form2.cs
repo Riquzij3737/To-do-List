@@ -52,6 +52,8 @@ namespace To_do_List_List.GUI
 
                     // Adiciono a tarefa ao painel de modo assincrono
                     var categoriaSelecionada = checkedListBox1.SelectedItem.ToString();
+                    
+                    // faço um switch para verificar qual categoria foi selecionada
                     switch (categoriaSelecionada)
                     {
                         case "Nulo":

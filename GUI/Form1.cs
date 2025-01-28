@@ -31,6 +31,8 @@ namespace To_do_List_List
             form.ShowDialog();
         }
 
+        // evento para ler e adicionar as tarefas no panel
+
         private async void Form1_Load(object sender, EventArgs e)
         {
             await ReaderTasksMethods.ReadToPanel(panel2, connectionString, Form1.Acessor);
