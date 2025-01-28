@@ -39,7 +39,7 @@ namespace To_do_List_List.GUI
                     conn.Open();
 
                     using (MySqlCommand cmd = conn.CreateCommand())
-                    {                                             
+                    {
                         string acessadortabela = textBox1.Text + "_Tsk";
 
                         cmd.Parameters.Clear();
@@ -80,58 +80,66 @@ namespace To_do_List_List.GUI
             }
         }
 
+
         private void button1_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(textBox2.Text) || String.IsNullOrEmpty(textBox1.Text))
+            // Validação dos campos de entrada
+            if (string.IsNullOrWhiteSpace(textBox1.Text) || string.IsNullOrWhiteSpace(textBox2.Text))
             {
-                throw new ArgumentNullException("Por favor, forneça um nome de usuário e senha.");
+                MessageBox.Show("Por favor, forneça um nome de usuário e senha.", "Erro de Validação", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            else
+
+            string usuario = textBox1.Text;
+            string senha = textBox2.Text;
+
+            try
             {
+                // Estabelecendo conexão com o banco de dados
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
 
-                    using (MySqlCommand cmd = conn.CreateCommand())
+                    // Usando parâmetros para evitar SQL Injection
+                    string query = "SELECT * FROM users_tb WHERE Nome = @Nome AND Senha = @Senha";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.CommandText = "select * from users_tb";
+                        // Adicionando parâmetros
+                        cmd.Parameters.AddWithValue("@Nome", usuario);
+                        cmd.Parameters.AddWithValue("@Senha", senha);
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            while (reader.Read())
+                            if (reader.HasRows)
                             {
-                                try
-                                {
+                                reader.Read(); // Ler o primeiro resultado
 
-                                    if (textBox1.Text == reader["Nome"].ToString() && textBox2.Text == reader["Senha"].ToString())
-                                    {
-                                        MessageBox.Show("Conta acessada com sucesso!", "To-Do-List", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show("Conta acessada com sucesso!", "To-Do-List", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                        Form1 form = new Form1();
-                                        Form1.Acessor = reader["TBL_Tasks"].ToString();
-                                        form.ShowDialog();
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        MessageBox.Show("Acesso negado!");
-                                        break;
-                                    }
-                                }
-                                catch (Exception error)
-                                {
-                                    MessageBox.Show($"Erro de execução: {error.Message}", "To-do-List.Exceptions", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                                    throw;
-                                }
+                                // Abrir o próximo formulário e passar o valor necessário
+                                Form1 form = new Form1();
+                                Form1.Acessor = usuario + "_Tsk";
+                                form.ShowDialog();
+                            }
+                            else
+                            {
+                                // Se nenhuma linha foi encontrada
+                                MessageBox.Show("Acesso negado! Usuário ou senha incorretos.", "Erro de Autenticação", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                         }
                     }
                 }
             }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show($"Erro ao acessar o banco de dados: {ex.Message}", "Erro de Banco de Dados", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocorreu um erro: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
-
 
 }
 
