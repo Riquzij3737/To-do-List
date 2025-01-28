@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using To_do_List_List.Security;
+using To_do_List_List;
 
 namespace To_do_List_List.GUI
 {
@@ -100,23 +100,29 @@ namespace To_do_List_List.GUI
                         {
                             while (reader.Read())
                             {
-                                Descryptor descryptor = new Descryptor();
-
-                                string senha = descryptor.DescryptText(reader["Senha"].ToString());
-
-                                if (textBox1.Text == reader["Nome"].ToString() && textBox2.Text == senha)
+                                try
                                 {
-                                    MessageBox.Show("Conta acessada com sucesso!", "To-Do-List", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                    Form1 form = new Form1();
-                                    Form1.Acessor = reader["TBL_Tasks"].ToString();
-                                    form.ShowDialog();
-                                    break;
+                                    if (textBox1.Text == reader["Nome"].ToString() && textBox2.Text == reader["Senha"].ToString())
+                                    {
+                                        MessageBox.Show("Conta acessada com sucesso!", "To-Do-List", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                        Form1 form = new Form1();
+                                        Form1.Acessor = reader["TBL_Tasks"].ToString();
+                                        form.ShowDialog();
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Acesso negado!");
+                                        break;
+                                    }
                                 }
-                                else
+                                catch (Exception error)
                                 {
-                                    MessageBox.Show("Acesso negado!");
-                                    break;
+                                    MessageBox.Show($"Erro de execução: {error.Message}", "To-do-List.Exceptions", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                    throw;
                                 }
                             }
                         }

@@ -15,9 +15,11 @@ namespace To_do_List_List.GUI
     {
         public readonly string connectionString = MakeMysqlKey.MakeKey("Tasks_db"); // Crio a string de conexão com o banco de dados        
         public Panel Panelmanager;
+        public readonly string acessor;
 
-        public Form2(Panel form)
+        public Form2(Panel form, string acessor2)
         {
+            acessor = acessor2;
             Panelmanager = form;
 
             InitializeComponent();
@@ -42,7 +44,7 @@ namespace To_do_List_List.GUI
                 using (MySqlCommand cmd = conn.CreateCommand())
                 {
                     // Adicionar a tarefa ao banco de dados
-                    cmd.CommandText = "INSERT INTO Tarefas (Nome, Concluida, Categoria) VALUES (@Nome, 'Não', @Categoria);";
+                    cmd.CommandText = $"INSERT INTO {acessor} (Nome, Concluida, Categoria) VALUES (@Nome, 'Não', @Categoria);";
                     cmd.Parameters.AddWithValue("@Nome", textBox1.Text);
 
                     // Instancio a classe addList
