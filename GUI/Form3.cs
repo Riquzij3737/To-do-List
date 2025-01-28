@@ -30,7 +30,7 @@ namespace To_do_List_List.GUI
         {
             if (String.IsNullOrEmpty(textBox2.Text) || String.IsNullOrEmpty(textBox1.Text))
             {
-                throw new ArgumentNullException("Oq tu quer q eu faça? adiciona um usuario no banco de dados sem ter a senha ou nome?\n Vai toma no seu cu:D");
+                throw new ArgumentNullException("Por favor, forneça um nome de usuário e senha.");
             }
             else
             {
@@ -39,50 +39,42 @@ namespace To_do_List_List.GUI
                     conn.Open();
 
                     using (MySqlCommand cmd = conn.CreateCommand())
-                    {
-                        Encryptor encryptor = new Encryptor();
-
-                        string textocriptografado = encryptor.Encryp(textBox2.Text);
+                    {                                             
                         string acessadortabela = textBox1.Text + "_Tsk";
 
                         cmd.Parameters.Clear();
                         cmd.CommandText = "INSERT INTO Users_tb (Nome, Senha, TBL_Tasks) VALUES (@Nome, @Senha, @TBL_Tasks)";
 
                         cmd.Parameters.AddWithValue("@Nome", textBox1.Text);
-                        cmd.Parameters.AddWithValue("@Senha", textocriptografado);
+                        cmd.Parameters.AddWithValue("@Senha", textBox2.Text);
                         cmd.Parameters.AddWithValue("@TBL_Tasks", acessadortabela);
                         cmd.CommandText = $@"CREATE TABLE `tasks_db`.`{acessadortabela}` (
-                                                    `ID` INT NOT NULL AUTO_INCREMENT,
-                                                     `Nome` VARCHAR(45) NOT NULL,
-                                                     `Concluida` VARCHAR(3) NOT NULL,
-                                                     `Categoria` VARCHAR(45) NOT NULL,
-                                                     PRIMARY KEY (`ID`));
-                                                ";
+                                            `ID` INT NOT NULL AUTO_INCREMENT,
+                                             `Nome` VARCHAR(45) NOT NULL,
+                                             `Concluida` VARCHAR(3) NOT NULL,
+                                             `Categoria` VARCHAR(45) NOT NULL,
+                                             PRIMARY KEY (`ID`));
+                                        ";
 
                         try
                         {
                             cmd.ExecuteNonQuery();
-                            MessageBox.Show("Conta criada com sucesso!", "To-Do-List", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                            
+                            MessageBox.Show("Conta criada com sucesso!", "To-Do-List", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                             Form1 form = new Form1();
 
                             Form1.Acessor = acessadortabela;
 
                             form.ShowDialog();
-
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"Erro: {ex}", "Tratamento de erros", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            MessageBox.Show($"Erro: {ex.Message}", "Tratamento de erros", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
                         finally
                         {
                             conn.Close();
-
-                            GC.Collect(conn.GetHashCode());
-
                         }
-
                     }
                 }
             }
@@ -92,7 +84,7 @@ namespace To_do_List_List.GUI
         {
             if (String.IsNullOrEmpty(textBox2.Text) || String.IsNullOrEmpty(textBox1.Text))
             {
-                throw new ArgumentNullException("Oq tu quer q eu faça? adiciona um usuario no banco de dados sem ter a senha ou nome?\n Vai toma no seu cu:D");
+                throw new ArgumentNullException("Por favor, forneça um nome de usuário e senha.");
             }
             else
             {
@@ -114,16 +106,14 @@ namespace To_do_List_List.GUI
 
                                 if (textBox1.Text == reader["Nome"].ToString() && textBox2.Text == senha)
                                 {
-                                    MessageBox.Show("Conta acessada com sucesso com sucesso!", "To-Do-List", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                                    MessageBox.Show("Conta acessada com sucesso!", "To-Do-List", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                     Form1 form = new Form1();
-                                    Form3 form3 = new Form3();
                                     Form1.Acessor = reader["TBL_Tasks"].ToString();
-                                    form.ShowDialog();                                    
-                                    
-
+                                    form.ShowDialog();
                                     break;
-                                } else
+                                }
+                                else
                                 {
                                     MessageBox.Show("Acesso negado!");
                                     break;
@@ -135,5 +125,7 @@ namespace To_do_List_List.GUI
             }
         }
     }
+
+
 }
 
